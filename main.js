@@ -85,11 +85,13 @@ document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll(".window-close").forEach((btn) => {
     btn.addEventListener("pointerup", function (e) {
       e.preventDefault();
+      e.stopPropagation();
       const app = this.dataset.app;
       closeWindow(app);
     });
     btn.addEventListener("touchend", function (e) {
       e.preventDefault();
+      e.stopPropagation();
       const app = this.dataset.app;
       closeWindow(app);
     });
