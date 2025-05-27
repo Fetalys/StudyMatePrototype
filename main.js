@@ -12,24 +12,32 @@ function openWindow(app) {
       const header = el.querySelector(".window-header");
       let offsetX = 0, offsetY = 0, isDragging = false;
 
-      // pc functions
+      // position can vary on the screen so the user can put it anywhere
+      el.style.position = "absolute";
+      if (!el.style.left) el.style.left = el.offsetLeft + "px";
+      if (!el.style.top) el.style.top = el.offsetTop + "px";
+
+      // pc mouse functions
       header.onmousedown = function (e) {
+        e.preventDefault();
         isDragging = true;
         offsetX = e.clientX - el.offsetLeft;
         offsetY = e.clientY - el.offsetTop;
-        document.onmousemove = drag;
-        document.onmouseup = stopDrag;
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", stopDrag);
       };
 
-      // phone|tablet functions
-      header.ontouchstart = function (e) {
+      // tablet touch functions
+      header.addEventListener("touchstart", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         isDragging = true;
         const touch = e.touches[0];
         offsetX = touch.clientX - el.offsetLeft;
         offsetY = touch.clientY - el.offsetTop;
-        document.ontouchmove = touchDrag;
-        document.ontouchend = stopTouchDrag;
-      };
+        document.addEventListener("touchmove", touchDrag, { passive: false });
+        document.addEventListener("touchend", stopTouchDrag);
+      });
 
       function drag(e) {
         if (!isDragging) return;
@@ -39,12 +47,13 @@ function openWindow(app) {
 
       function stopDrag() {
         isDragging = false;
-        document.onmousemove = null;
-        document.onmouseup = null;
+        document.removeEventListener("mousemove", drag);
+        document.removeEventListener("mouseup", stopDrag);
       }
 
       function touchDrag(e) {
         if (!isDragging) return;
+        e.preventDefault();
         const touch = e.touches[0];
         el.style.left = touch.clientX - offsetX + "px";
         el.style.top = touch.clientY - offsetY + "px";
@@ -52,7 +61,7 @@ function openWindow(app) {
 
       function stopTouchDrag() {
         isDragging = false;
-        document.ontouchmove = null;
-        document.ontouchend = null;
+        document.removeEventListener("touchmove", touchDrag);
+        document.removeEventListener("touchend", stopTouchDrag);
       }
     }
