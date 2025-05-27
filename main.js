@@ -88,6 +88,11 @@ document.addEventListener("DOMContentLoaded", function() {
       const app = this.dataset.app;
       closeWindow(app);
     });
+    btn.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      const app = this.dataset.app;
+      closeWindow(app);
+    });
   });
 
   // Expose openWindow globally
