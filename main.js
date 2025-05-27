@@ -1,6 +1,7 @@
 function openWindow(app) {
   const win = document.getElementById(`${app}-window`);
   win.classList.remove("hidden");
+  bringToFront(win);
   makeDraggable(win);
 }
 
@@ -68,15 +69,29 @@ function makeDraggable(el) {
   }
 }
 
-const closeButtons = document.querySelectorAll(".window hidden");
+const closeButtons = document.querySelectorAll(".window-close");
 closeButtons.forEach((btn) => {
+  btn.addEventListener("pointerup", function (e) {
+    e.preventDefault();
+    const app = this.dataset.app;
+    closeWindow(app);
+  });
   btn.addEventListener("click", function (e) {
+    e.preventDefault();
     const app = this.dataset.app;
     closeWindow(app);
   });
-  btn.addEventListener("touchend", function (e) {
-    e.preventDefault(); // prevents ghost touch
-    const app = this.dataset.app;
-    closeWindow(app);
-  });
+});
+
+let topZ = 100;
+
+function bringToFront(win) {
+  topZ++;
+  win.style.zIndex = topZ;
+}
+
+// added a event listeners to bring window to front on click/touch
+document.querySelectorAll('.window').forEach(win => {
+  win.addEventListener('mousedown', () => bringToFront(win));
+  win.addEventListener('touchstart', () => bringToFront(win));
 });
