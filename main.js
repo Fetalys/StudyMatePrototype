@@ -68,7 +68,7 @@ function makeDraggable(el) {
   }
 }
 
-const closeButtons = document.querySelectorAll(".window-close");
+const closeButtons = document.querySelectorAll(".window hidden");
 closeButtons.forEach((btn) => {
   btn.addEventListener("click", function (e) {
     const app = this.dataset.app;
