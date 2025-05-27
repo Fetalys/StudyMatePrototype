@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>StudyMate linux/macOS UI|UX</title>
+  </head>
+  <body>
+    <!-- Mac-style top nav bar -->
+    <div class="top-nav">
+      <div class="logo">🍎 StudyMate</div>
+      <div class="menu">
+        <a href="#" onclick="openWindow('notes')">Notes</a>
+        <a href="#" onclick="openWindow('pomodoro')">Pomodoro</a>
+        <a href="#" onclick="openWindow('chat')">Chat</a>
+        <a href="#" onclick="openWindow('calendar')">Calendar</a>
+        <a href="#">Login</a>
+      </div>
+    </div>
+
+    <!-- notes window -->
+    <div id="notes-window" class="window hidden">
+      <div class="window-header">
+        <span>📝 Notes</span>
+        <button onclick="closeWindow('notes')">✖</button>
+      </div>
+      <div class="window-content">
+        <textarea placeholder="Write your notes here..."></textarea>
+      </div>
+    </div>
+
+    <!-- pomodoro window -->
+    <div id="pomodoro-window" class="window hidden">
+      <div class="window-header">
+        <span>⏱️ Pomodoro</span>
+        <button onclick="closeWindow('pomodoro')">✖</button>
+      </div>
+      <div class="window-content">
+        <p style="font-size: 50px; text-align: center">25:00</p>
+        <div class="btns">
+          <button class="start-btn">Start</button>
+          <button class="stop-btn">Stop</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- chat window -->
+    <div id="chat-window" class="window hidden">
+      <div class="window-header">
+        <span>💬 Chat</span>
+        <button onclick="closeWindow('chat')">✖</button>
+      </div>
+      <div class="window-content">
+        <p>Chat messages go here...</p>
+      </div>
+    </div>
+
+    <!-- calendar window -->
+    <div id="calendar-window" class="window hidden">
+      <div class="window-header">
+        <span>📅 Calendar</span>
+        <button onclick="closeWindow('calendar')">✖</button>
+      </div>
+      <div class="window-content">
+        <p>Calendar feature coming soon...</p>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
