@@ -22,8 +22,12 @@
     <!-- notes window -->
     <div id="notes-window" class="window hidden">
       <div class="window-header">
-        <span>📝 Notes</span>
-        <button onclick="closeWindow('notes')">✖</button>
+        <div class="header-title">
+          <span>Notes</span>
+        </div>
+        <div class="header-actions">
+          <button class="window-close" data-app="notes">×</button>
+        </div>
       </div>
       <div class="window-content">
         <textarea placeholder="Write your notes here..."></textarea>
@@ -34,7 +38,9 @@
     <div id="pomodoro-window" class="window hidden">
       <div class="window-header">
         <span>⏱️ Pomodoro</span>
-        <button onclick="closeWindow('pomodoro')">✖</button>
+        <div class="header-actions">
+          <button class="window-close" data-app="notes">×</button>
+        </div>
       </div>
       <div class="window-content">
         <p style="font-size: 50px; text-align: center">25:00</p>
@@ -49,7 +55,9 @@
     <div id="chat-window" class="window hidden">
       <div class="window-header">
         <span>💬 Chat</span>
-        <button onclick="closeWindow('chat')">✖</button>
+        <div class="header-actions">
+          <button class="window-close" data-app="notes">×</button>
+        </div>
       </div>
       <div class="window-content">
         <p>Chat messages go here...</p>
@@ -60,7 +68,9 @@
     <div id="calendar-window" class="window hidden">
       <div class="window-header">
         <span>📅 Calendar</span>
-        <button onclick="closeWindow('calendar')">✖</button>
+        <div class="header-actions">
+          <button class="window-close" data-app="notes">×</button>
+        </div>
       </div>
       <div class="window-content">
         <p>Calendar feature coming soon...</p>
