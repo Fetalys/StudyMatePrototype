@@ -76,11 +76,6 @@ closeButtons.forEach((btn) => {
     const app = this.dataset.app;
     closeWindow(app);
   });
-  btn.addEventListener("click", function (e) {
-    e.preventDefault();
-    const app = this.dataset.app;
-    closeWindow(app);
-  });
 });
 
 let topZ = 100;
@@ -90,8 +85,6 @@ function bringToFront(win) {
   win.style.zIndex = topZ;
 }
 
-// added a event listeners to bring window to front on click/touch
 document.querySelectorAll('.window').forEach(win => {
-  win.addEventListener('mousedown', () => bringToFront(win));
-  win.addEventListener('touchstart', () => bringToFront(win));
+  win.addEventListener('pointerdown', () => bringToFront(win));
 });
