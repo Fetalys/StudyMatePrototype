@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   let topZ = 100;
 
   function openWindow(app) {
@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // bring window to front on pointerdown
-  document.querySelectorAll('.window').forEach(win => {
-    win.addEventListener('pointerdown', () => bringToFront(win));
+  document.querySelectorAll(".window").forEach((win) => {
+    win.addEventListener("pointerdown", () => bringToFront(win));
   });
 
   // close window on pointerup/touchend
@@ -102,17 +102,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // --- calculator logic ---
 let calcValue = "";
-window.calcInput = function(val) {
+window.calcInput = function (val) {
   calcValue += val;
   const display = document.getElementById("calc-display");
   if (display) display.value = calcValue;
 };
-window.calcClear = function() {
+window.calcClear = function () {
   calcValue = "";
   const display = document.getElementById("calc-display");
   if (display) display.value = "";
 };
-window.calcEquals = function() {
+window.calcEquals = function () {
   const display = document.getElementById("calc-display");
   try {
     // eslint-disable-next-line no-eval
@@ -128,10 +128,10 @@ window.calcEquals = function() {
 function saveTodos() {
   const list = document.getElementById("todo-list");
   const todos = [];
-  list.querySelectorAll(".todo-item").forEach(li => {
+  list.querySelectorAll(".todo-item").forEach((li) => {
     todos.push({
       text: li.querySelector("span").textContent,
-      completed: li.classList.contains("completed")
+      completed: li.classList.contains("completed"),
     });
   });
   localStorage.setItem("todos", JSON.stringify(todos));
@@ -141,7 +141,7 @@ function loadTodos() {
   const list = document.getElementById("todo-list");
   list.innerHTML = "";
   const todos = JSON.parse(localStorage.getItem("todos") || "[]");
-  todos.forEach(todo => {
+  todos.forEach((todo) => {
     const li = document.createElement("li");
     li.className = "todo-item";
     if (todo.completed) li.classList.add("completed");
@@ -151,7 +151,7 @@ function loadTodos() {
     checkbox.type = "checkbox";
     checkbox.className = "todo-checkbox";
     checkbox.checked = todo.completed;
-    checkbox.onclick = function() {
+    checkbox.onclick = function () {
       li.classList.toggle("completed", checkbox.checked);
       saveTodos();
     };
@@ -164,7 +164,7 @@ function loadTodos() {
     const removeBtn = document.createElement("button");
     removeBtn.className = "todo-remove";
     removeBtn.innerHTML = "&times;";
-    removeBtn.onclick = function() {
+    removeBtn.onclick = function () {
       li.remove();
       saveTodos();
     };
@@ -176,7 +176,7 @@ function loadTodos() {
   });
 }
 
-window.addTodo = function(event) {
+window.addTodo = function (event) {
   event.preventDefault();
   const input = document.getElementById("todo-input");
   const list = document.getElementById("todo-list");
@@ -190,7 +190,7 @@ window.addTodo = function(event) {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.className = "todo-checkbox";
-    checkbox.onclick = function() {
+    checkbox.onclick = function () {
       li.classList.toggle("completed", checkbox.checked);
       saveTodos();
     };
@@ -203,7 +203,7 @@ window.addTodo = function(event) {
     const removeBtn = document.createElement("button");
     removeBtn.className = "todo-remove";
     removeBtn.innerHTML = "&times;";
-    removeBtn.onclick = function() {
+    removeBtn.onclick = function () {
       li.remove();
       saveTodos();
     };
@@ -219,7 +219,7 @@ window.addTodo = function(event) {
 
 document.addEventListener("DOMContentLoaded", loadTodos);
 
-// --- Notes logic with localStorage ---
+// --- notes logic with localStorage ---
 function saveNotes() {
   const textarea = document.getElementById("notes-textarea");
   if (textarea) {
@@ -235,5 +235,54 @@ function loadNotes() {
   }
 }
 
-// Load notes on page load
+// load notes on page load
 document.addEventListener("DOMContentLoaded", loadNotes);
+
+// --- pomodoro logic ---
+let pomodoroInterval = null;
+let pomodoroTime = 25 * 60;
+let pomodoroRunning = false;
+
+function updatePomodoroDisplay() {
+  const display = document.querySelector("#pomodoro-window .window-content p");
+  if (display) {
+    const min = String(Math.floor(pomodoroTime / 60)).padStart(2, "0");
+    const sec = String(pomodoroTime % 60).padStart(2, "0");
+    display.textContent = `${min}:${sec}`;
+  }
+}
+
+function startPomodoro() {
+  if (pomodoroRunning) return;
+  pomodoroRunning = true;
+  pomodoroInterval = setInterval(() => {
+    if (pomodoroTime > 0) {
+      pomodoroTime--;
+      updatePomodoroDisplay();
+    } else {
+      stopPomodoro();
+      alert("Pomodoro finished!");
+    }
+  }, 1000);
+}
+
+function stopPomodoro() {
+  pomodoroRunning = false;
+  clearInterval(pomodoroInterval);
+}
+
+function resetPomodoro() {
+  stopPomodoro();
+  pomodoroTime = 25 * 60;
+  updatePomodoroDisplay();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  updatePomodoroDisplay();
+  const startBtn = document.querySelector("#pomodoro-window .start-btn");
+  const stopBtn = document.querySelector("#pomodoro-window .stop-btn");
+  const resetBtn = document.querySelector("#pomodoro-window .reset-btn");
+  if (startBtn) startBtn.onclick = startPomodoro;
+  if (stopBtn) stopBtn.onclick = stopPomodoro;
+  if (resetBtn) resetBtn.onclick = resetPomodoro;
+});
