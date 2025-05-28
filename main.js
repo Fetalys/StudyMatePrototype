@@ -23,12 +23,11 @@ document.addEventListener("DOMContentLoaded", function() {
       offsetY = 0,
       isDragging = false;
 
-    // position can vary on the screen so the user can put it anywhere
     el.style.position = "absolute";
     if (!el.style.left) el.style.left = el.offsetLeft + "px";
     if (!el.style.top) el.style.top = el.offsetTop + "px";
 
-    // pc mouse functions
+    // mouse drag
     header.onmousedown = function (e) {
       e.preventDefault();
       isDragging = true;
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
       document.addEventListener("mouseup", stopDrag);
     };
 
-    // tablet touch functions
+    // touch drag
     header.addEventListener("touchstart", function (e) {
       e.preventDefault();
       isDragging = true;
@@ -76,12 +75,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // window will come to front on pointerdown (works for mouse and touch)
+  // bring window to front on pointerdown
   document.querySelectorAll('.window').forEach(win => {
     win.addEventListener('pointerdown', () => bringToFront(win));
   });
 
-  // will close on pointerup (works for mouse and touch)
+  // close window on pointerup/touchend
   document.querySelectorAll(".window-close").forEach((btn) => {
     btn.addEventListener("pointerup", function (e) {
       e.preventDefault();
@@ -97,6 +96,144 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // Expose openWindow globally
+  // expose openWindow globally for HTML onclick
   window.openWindow = openWindow;
 });
+
+// --- calculator logic ---
+let calcValue = "";
+window.calcInput = function(val) {
+  calcValue += val;
+  const display = document.getElementById("calc-display");
+  if (display) display.value = calcValue;
+};
+window.calcClear = function() {
+  calcValue = "";
+  const display = document.getElementById("calc-display");
+  if (display) display.value = "";
+};
+window.calcEquals = function() {
+  const display = document.getElementById("calc-display");
+  try {
+    // eslint-disable-next-line no-eval
+    calcValue = eval(calcValue).toString();
+    if (display) display.value = calcValue;
+  } catch {
+    if (display) display.value = "Error";
+    calcValue = "";
+  }
+};
+
+// --- to-do list logic with localStorage ---
+function saveTodos() {
+  const list = document.getElementById("todo-list");
+  const todos = [];
+  list.querySelectorAll(".todo-item").forEach(li => {
+    todos.push({
+      text: li.querySelector("span").textContent,
+      completed: li.classList.contains("completed")
+    });
+  });
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function loadTodos() {
+  const list = document.getElementById("todo-list");
+  list.innerHTML = "";
+  const todos = JSON.parse(localStorage.getItem("todos") || "[]");
+  todos.forEach(todo => {
+    const li = document.createElement("li");
+    li.className = "todo-item";
+    if (todo.completed) li.classList.add("completed");
+
+    // checkbox
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "todo-checkbox";
+    checkbox.checked = todo.completed;
+    checkbox.onclick = function() {
+      li.classList.toggle("completed", checkbox.checked);
+      saveTodos();
+    };
+
+    // task text
+    const span = document.createElement("span");
+    span.textContent = todo.text;
+
+    // remove button
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "todo-remove";
+    removeBtn.innerHTML = "&times;";
+    removeBtn.onclick = function() {
+      li.remove();
+      saveTodos();
+    };
+
+    li.appendChild(checkbox);
+    li.appendChild(span);
+    li.appendChild(removeBtn);
+    list.appendChild(li);
+  });
+}
+
+window.addTodo = function(event) {
+  event.preventDefault();
+  const input = document.getElementById("todo-input");
+  const list = document.getElementById("todo-list");
+  if (!input || !list) return;
+  const text = input.value.trim();
+  if (text) {
+    const li = document.createElement("li");
+    li.className = "todo-item";
+
+    // checkbox
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "todo-checkbox";
+    checkbox.onclick = function() {
+      li.classList.toggle("completed", checkbox.checked);
+      saveTodos();
+    };
+
+    // task text
+    const span = document.createElement("span");
+    span.textContent = text;
+
+    // remove button
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "todo-remove";
+    removeBtn.innerHTML = "&times;";
+    removeBtn.onclick = function() {
+      li.remove();
+      saveTodos();
+    };
+
+    li.appendChild(checkbox);
+    li.appendChild(span);
+    li.appendChild(removeBtn);
+    list.appendChild(li);
+    input.value = "";
+    saveTodos();
+  }
+};
+
+document.addEventListener("DOMContentLoaded", loadTodos);
+
+// --- Notes logic with localStorage ---
+function saveNotes() {
+  const textarea = document.getElementById("notes-textarea");
+  if (textarea) {
+    localStorage.setItem("notes", textarea.value);
+  }
+}
+
+function loadNotes() {
+  const textarea = document.getElementById("notes-textarea");
+  if (textarea) {
+    textarea.value = localStorage.getItem("notes") || "";
+    textarea.addEventListener("input", saveNotes);
+  }
+}
+
+// Load notes on page load
+document.addEventListener("DOMContentLoaded", loadNotes);
