@@ -41,6 +41,10 @@ body {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 10;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .hidden {
@@ -69,6 +73,9 @@ body {
 
 .window-content {
   padding: 15px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 #calculator-window .window-content {
@@ -143,6 +150,7 @@ body {
 
 #todo-list {
   list-style: none;
+  overflow: hidden;
   padding: 0;
   margin: 0;
 }
@@ -234,4 +242,97 @@ textarea {
 }
 .stop-btn:hover {
   background: #bc1920;
+}
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background: transparent;
+  cursor: se-resize;
+  z-index: 10;
+}
+.resize-handle::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  box-sizing: border-box;
+}
+
+#notes-textarea {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 60px;
+  resize: none; /* Let the window handle resizing */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body.light-mode {
+  background: #f5f5f5;
+  color: #222;
+}
+
+body.light-mode .top-nav {
+  background: #e0e0e0;
+  border-bottom: 1px solid #bbb;
+}
+
+body.light-mode .window {
+  background: #fff;
+  color: #999;
+  border: 1px solid #bbb;
+}
+
+body.light-mode .window-header {
+  background: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+}
+
+body.light-mode .window-header button,
+body.light-mode .todo-remove {
+  color: #d33;
+}
+
+body.light-mode #calc-display,
+body.light-mode #todo-form input[type="text"] {
+  background: #fff;
+  color: #999;
+  border: 1px solid #bbb;
+}
+
+/* Make calculator buttons lighter in light mode */
+body.light-mode #calculator-window button,
+body.light-mode .calculator-content button {
+  background: #f5f5f5;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+body.light-mode #calculator-window button:hover,
+body.light-mode .calculator-content button:hover {
+  background: #e0e0e0;
+}
+
+/* Make notes textarea lighter in light mode */
+body.light-mode #notes-textarea,
+body.light-mode textarea {
+  background: #fff;
+  color: #222;
+  border: 1px solid #bbb;
+}
+
+/* Make to-do list items lighter in light mode */
+body.light-mode .todo-item {
+  background: #f7f7f7;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+body.light-mode #todo-list {
+  background: #fff;
 }
