@@ -208,7 +208,16 @@ textarea {
   font-size: 30px;
   cursor: pointer;
 }
-
+.reset-btn {
+  background: #555;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  justify-self: center;
+  font-size: 30px;
+  cursor: pointer;
+}
 .stop-btn{
   background: #bc1823;
   color: white;
