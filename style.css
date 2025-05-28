@@ -24,6 +24,7 @@ body {
   text-decoration: none;
   color: #ccc;
   font-weight: 500;
+  font-size: 20px;
 }
 
 .top-nav .menu a:hover {
