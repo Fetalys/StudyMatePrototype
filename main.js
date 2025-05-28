@@ -286,3 +286,90 @@ document.addEventListener("DOMContentLoaded", function () {
   if (stopBtn) stopBtn.onclick = stopPomodoro;
   if (resetBtn) resetBtn.onclick = resetPomodoro;
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#notes-window, #todo-window").forEach((win) => {
+    const handle = win.querySelector(".resize-handle");
+    if (!handle) return;
+
+    let isResizing = false,
+      startX,
+      startY,
+      startWidth,
+      startHeight;
+
+    // mouse events
+    handle.addEventListener("mousedown", function (e) {
+      e.preventDefault();
+      isResizing = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startWidth = win.offsetWidth;
+      startHeight = win.offsetHeight;
+      document.addEventListener("mousemove", resize);
+      document.addEventListener("mouseup", stopResize);
+    });
+
+    // touch events
+    handle.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+      isResizing = true;
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      startWidth = win.offsetWidth;
+      startHeight = win.offsetHeight;
+      document.addEventListener("touchmove", resizeTouch, { passive: false });
+      document.addEventListener("touchend", stopResizeTouch);
+    });
+
+    function resize(e) {
+      if (!isResizing) return;
+      win.style.width = startWidth + (e.clientX - startX) + "px";
+      win.style.height = startHeight + (e.clientY - startY) + "px";
+    }
+    function stopResize() {
+      isResizing = false;
+      document.removeEventListener("mousemove", resize);
+      document.removeEventListener("mouseup", stopResize);
+    }
+    function resizeTouch(e) {
+      if (!isResizing) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      win.style.width = startWidth + (touch.clientX - startX) + "px";
+      win.style.height = startHeight + (touch.clientY - startY) + "px";
+    }
+    function stopResizeTouch() {
+      isResizing = false;
+      document.removeEventListener("touchmove", resizeTouch);
+      document.removeEventListener("touchend", stopResizeTouch);
+    }
+  });
+});
+
+function setTheme(mode) {
+  if (mode === "light") {
+    document.body.classList.add("light-mode");
+    document.getElementById("theme-toggle").textContent = "🌙 Dark";
+  } else {
+    document.body.classList.remove("light-mode");
+    document.getElementById("theme-toggle").textContent = "☀️ Light";
+  }
+  localStorage.setItem("theme", mode);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Set initial theme
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  setTheme(savedTheme);
+
+  // Toggle button logic
+  const toggleBtn = document.getElementById("theme-toggle");
+  if (toggleBtn) {
+    toggleBtn.onclick = function () {
+      const isLight = document.body.classList.contains("light-mode");
+      setTheme(isLight ? "dark" : "light");
+    };
+  }
+});
