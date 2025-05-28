@@ -1,133 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="style.css"/>
-    <title>StudyMate linux/macOS UI|UX</title>
-  </head>
-  <body>
-    <!-- mac-style top nav bar -->
-    <div class="top-nav">
-      <div class="logo">🍎 StudyMate</div>
-      <div class="menu">
-        <a href="#" onclick="openWindow('notes')">📝</a>
-        <a href="#" onclick="openWindow('pomodoro')">⏱️</a>
-        <a href="#" onclick="openWindow('chat')">💬</a>
-        <a href="#" onclick="openWindow('calendar')">📅</a>
-        <a href="#" onclick="openWindow('calculator')">🧮</a>
-        <a href="#" onclick="openWindow('todo')">📋</a>
-        <a href="#">👤</a>
-      </div>
-    </div>
 
-    <!-- notes window -->
-    <div id="notes-window" class="window hidden">
-      <div class="window-header">
-        <div class="header-title">
-          <span>📝 Notes</span>
-        </div>
-        <div class="header-actions">
-          <button class="window-close" data-app="notes">×</button>
-        </div>
-      </div>
-      <div class="window-content">
-        <textarea id="notes-textarea" placeholder="Write your notes here..."></textarea>
-      </div>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>StudyMate linux/macOS UI|UX</title>
+</head>
 
-    <!-- pomodoro window -->
-    <div id="pomodoro-window" class="window hidden">
-      <div class="window-header">
-        <span>⏱️ Pomodoro</span>
-        <div class="header-actions">
-          <button class="window-close" data-app="pomodoro">×</button>
-        </div>
-      </div>
-      <div class="window-content">
-        <p style="font-size: 50px; text-align: center">25:00</p>
-        <div class="btns">
-          <button class="start-btn">Start</button>
-              <button class="reset-btn">Reset</button>
-          <button class="stop-btn">Stop</button>
-        </div>
-      </div>
+<body>
+  <!-- mac-style top nav bar -->
+  <div class="top-nav">
+    <div class="logo">🍎 StudyMate</div>
+    <div class="menu">
+      <a href="#" onclick="openWindow('notes')">📝</a>
+      <a href="#" onclick="openWindow('pomodoro')">⏱️</a>
+      <a href="#" onclick="openWindow('chat')">💬</a>
+      <a href="#" onclick="openWindow('calendar')">📅</a>
+      <a href="#" onclick="openWindow('calculator')">🧮</a>
+      <a href="#" onclick="openWindow('todo')">📋</a>
+      <a href="#">👤</a>
+      <button id="theme-toggle" style="margin-left: 10px;">🌙 Dark</button>
     </div>
+  </div>
 
-    <!-- chat window -->
-    <div id="chat-window" class="window hidden">
-      <div class="window-header">
-        <span>💬 Chat</span>
-        <div class="header-actions">
-          <button class="window-close" data-app="chat">×</button>
-        </div>
+  <!-- notes window -->
+  <div id="notes-window" class="window hidden">
+    <div class="window-header">
+      <div class="header-title">
+        <span>📝 Notes</span>
       </div>
-      <div class="window-content">
-        <p>Chat messages go here...</p>
+      <div class="header-actions">
+        <button class="window-close" data-app="notes">×</button>
       </div>
     </div>
+    <div class="window-content">
+      <textarea id="notes-textarea" placeholder="Write your notes here..."></textarea>
+    </div>
+    <div class="resize-handle"></div>
+  </div>
 
-    <!-- calendar window -->
-    <div id="calendar-window" class="window hidden">
-      <div class="window-header">
-        <span>📅 Calendar</span>
-        <div class="header-actions">
-          <button class="window-close" data-app="calendar">×</button>
-        </div>
-      </div>
-      <div class="window-content">
-        <p>Calendar feature coming soon...</p>
+  <!-- pomodoro window -->
+  <div id="pomodoro-window" class="window hidden">
+    <div class="window-header">
+      <span>⏱️ Pomodoro</span>
+      <div class="header-actions">
+        <button class="window-close" data-app="pomodoro">×</button>
       </div>
     </div>
+    <div class="window-content">
+      <p style="font-size: 50px; text-align: center">25:00</p>
+      <div class="btns">
+        <button class="start-btn">Start</button>
+        <button class="reset-btn">Reset</button>
+        <button class="stop-btn">Stop</button>
+      </div>
+    </div>
+  </div>
 
-    <!-- calculator window -->
-    <div id="calculator-window" class="window hidden">
-      <div class="window-header">
-        <span>🧮 Calculator</span>
-        <div class="header-actions">
-          <button class="window-close" data-app="calculator">×</button>
-        </div>
-      </div>
-      <div class="calculator-content">
-        <input id="calc-display" type="text" readonly style="width: 95%; font-size: 1.5em; margin-bottom: 10px; text-align: right;" />
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
-          <button onclick="calcInput('7')">7</button>
-          <button onclick="calcInput('8')">8</button>
-          <button onclick="calcInput('9')">9</button>
-          <button onclick="calcInput('/')">÷</button>
-          <button onclick="calcInput('4')">4</button>
-          <button onclick="calcInput('5')">5</button>
-          <button onclick="calcInput('6')">6</button>
-          <button onclick="calcInput('*')">x</button>
-          <button onclick="calcInput('1')">1</button>
-          <button onclick="calcInput('2')">2</button>
-          <button onclick="calcInput('3')">3</button>
-          <button onclick="calcInput('-')">-</button>
-          <button onclick="calcInput('0')">0</button>
-          <button onclick="calcInput('.')">.</button>
-          <button onclick="calcClear()">C</button>
-          <button onclick="calcInput('+')">+</button>
-          <button style="grid-column: span 4;" onclick="calcEquals()">=</button>
-        </div>
+  <!-- chat window -->
+  <div id="chat-window" class="window hidden">
+    <div class="window-header">
+      <span>💬 Chat</span>
+      <div class="header-actions">
+        <button class="window-close" data-app="chat">×</button>
       </div>
     </div>
+    <div class="window-content">
+      <p>Chat messages go here...</p>
+    </div>
+  </div>
 
-    <!-- todo window -->
-    <div id="todo-window" class="window hidden">
-      <div class="window-header">
-        <span>📋 To-Do List</span>
-        <div class="header-actions">
-          <button class="window-close" data-app="todo">×</button>
-        </div>
-      </div>
-      <div class="window-content">
-        <form id="todo-form" onsubmit="addTodo(event)">
-          <input id="todo-input" type="text" placeholder="Add a new task..." required />
-          <button type="submit">Add</button>
-        </form>
-        <ul id="todo-list"></ul>
+  <!-- calendar window -->
+  <div id="calendar-window" class="window hidden">
+    <div class="window-header">
+      <span>📅 Calendar</span>
+      <div class="header-actions">
+        <button class="window-close" data-app="calendar">×</button>
       </div>
     </div>
-    <script src="main.js"></script>
-  </body>
+    <div class="window-content">
+      <p>Calendar feature coming soon...</p>
+    </div>
+  </div>
+
+  <!-- calculator window -->
+  <div id="calculator-window" class="window hidden">
+    <div class="window-header">
+      <span>🧮 Calculator</span>
+      <div class="header-actions">
+        <button class="window-close" data-app="calculator">×</button>
+      </div>
+    </div>
+    <div class="calculator-content">
+      <input id="calc-display" type="text" readonly style="
+            width: 95%;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            text-align: right;
+          " />
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px">
+        <button onclick="calcInput('7')">7</button>
+        <button onclick="calcInput('8')">8</button>
+        <button onclick="calcInput('9')">9</button>
+        <button onclick="calcInput('/')">÷</button>
+        <button onclick="calcInput('4')">4</button>
+        <button onclick="calcInput('5')">5</button>
+        <button onclick="calcInput('6')">6</button>
+        <button onclick="calcInput('*')">x</button>
+        <button onclick="calcInput('1')">1</button>
+        <button onclick="calcInput('2')">2</button>
+        <button onclick="calcInput('3')">3</button>
+        <button onclick="calcInput('-')">-</button>
+        <button onclick="calcInput('0')">0</button>
+        <button onclick="calcInput('.')">.</button>
+        <button onclick="calcClear()">C</button>
+        <button onclick="calcInput('+')">+</button>
+        <button style="grid-column: span 4" onclick="calcEquals()">=</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- todo window -->
+  <div id="todo-window" class="window hidden">
+    <div class="window-header">
+      <span>📋 To-Do List</span>
+      <div class="header-actions">
+        <button class="window-close" data-app="todo">×</button>
+      </div>
+    </div>
+    <div class="window-content">
+      <form id="todo-form" onsubmit="addTodo(event)">
+        <input id="todo-input" type="text" placeholder="Add a new task..." required />
+        <button type="submit">Add</button>
+      </form>
+      <ul id="todo-list"></ul>
+    </div>
+    <div class="resize-handle"></div>
+  </div>
+  <script src="main.js"></script>
+</body>
+
 </html>
