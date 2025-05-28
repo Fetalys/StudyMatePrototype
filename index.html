@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="style.css"/>
     <title>StudyMate linux/macOS UI|UX</title>
   </head>
   <body>
@@ -15,6 +15,8 @@
         <a href="#" onclick="openWindow('pomodoro')">Pomodoro</a>
         <a href="#" onclick="openWindow('chat')">Chat</a>
         <a href="#" onclick="openWindow('calendar')">Calendar</a>
+        <a href="#" onclick="openWindow('calculator')">Calculator</a>
+        <a href="#" onclick="openWindow('todo')">To-Do</a>
         <a href="#">Login</a>
       </div>
     </div>
@@ -30,7 +32,7 @@
         </div>
       </div>
       <div class="window-content">
-        <textarea placeholder="Write your notes here..."></textarea>
+        <textarea id="notes-textarea" placeholder="Write your notes here..."></textarea>
       </div>
     </div>
 
@@ -77,6 +79,55 @@
       </div>
     </div>
 
+    <!-- calculator window -->
+    <div id="calculator-window" class="window hidden">
+      <div class="window-header">
+        <span>🧮 Calculator</span>
+        <div class="header-actions">
+          <button class="window-close" data-app="calculator">×</button>
+        </div>
+      </div>
+      <div class="calculator-content">
+        <input id="calc-display" type="text" readonly style="width: 95%; font-size: 1.5em; margin-bottom: 10px; text-align: right;" />
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+          <button onclick="calcInput('7')">7</button>
+          <button onclick="calcInput('8')">8</button>
+          <button onclick="calcInput('9')">9</button>
+          <button onclick="calcInput('/')">÷</button>
+          <button onclick="calcInput('4')">4</button>
+          <button onclick="calcInput('5')">5</button>
+          <button onclick="calcInput('6')">6</button>
+          <button onclick="calcInput('*')">x</button>
+          <button onclick="calcInput('1')">1</button>
+          <button onclick="calcInput('2')">2</button>
+          <button onclick="calcInput('3')">3</button>
+          <button onclick="calcInput('-')">-</button>
+          <button onclick="calcInput('0')">0</button>
+          <button onclick="calcInput('.')">.</button>
+          <button onclick="calcClear()">C</button>
+          <button onclick="calcInput('+')">+</button>
+          <button style="grid-column: span 4;" onclick="calcEquals()">=</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- todo window -->
+    <div id="todo-window" class="window hidden">
+      <div class="window-header">
+        <span>📝 To-Do List</span>
+        <div class="header-actions">
+          <button class="window-close" data-app="todo">×</button>
+        </div>
+      </div>
+      <div class="window-content">
+        <form id="todo-form" onsubmit="addTodo(event)">
+          <input id="todo-input" type="text" placeholder="Add a new task..." required />
+          <button type="submit">Add</button>
+        </form>
+        <ul id="todo-list"></ul>
+      </div>
+    </div>
+    
     <script src="main.js"></script>
   </body>
 </html>
